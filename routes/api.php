@@ -24,3 +24,11 @@ Route::get('/documents/{document}/thumb', \Vqs\Papertrail\Http\Controllers\GetTh
 Route::get('/documents/{document}/pages/{page}', \Vqs\Papertrail\Http\Controllers\GetPageImageController::class)
     ->whereNumber('page')
     ->name('papertrail.documents.page');
+
+// Form fields and placeholders
+Route::get('/documents/{document}/fields', \Vqs\Papertrail\Http\Controllers\ListPdfFieldsController::class)
+    ->name('papertrail.documents.fields');
+Route::put('/fields/{field}', \Vqs\Papertrail\Http\Controllers\UpdatePdfFieldController::class)
+    ->name('papertrail.fields.update');
+Route::get('/placeholders', \Vqs\Papertrail\Http\Controllers\ListPlaceholdersController::class)
+    ->name('papertrail.placeholders');
