@@ -15,6 +15,17 @@ return [
         'background' => '#FFFFFF',
     ],
 
+    // Base directory for processed PDFs
+    'processed' => [
+        // disk to use for all processed assets (document.pdf, thumb, pages)
+        'disk' => env('PAPERTRAIL_PROCESSED_DISK', 'papertrail'),
+        // base path under the disk where processed items are stored
+        'base_path' => env('PAPERTRAIL_PROCESSED_BASE', 'processed'),
+        // PHP date() format used to create year-month folder names
+        // Example: 'Ym' => 202512
+        'date_folder_format' => env('PAPERTRAIL_PROCESSED_DATE_FORMAT', 'Ym'),
+    ],
+
     // Per-page image generation
     'page_images' => [
         'disk' => env('PAPERTRAIL_PAGE_IMG_DISK', 'papertrail'),
@@ -25,4 +36,12 @@ return [
         'background' => env('PAPERTRAIL_PAGE_IMG_BG', '#FFFFFF'),
         'max_pages' => (int) env('PAPERTRAIL_PAGE_IMG_MAX', 200),
     ],
+
+    // These placeholders will be available for selection on each form-field the PDFs
+    // will provide. Selecting one will allow the system to replace that
+    // placeholder with actual content for that form-field.
+    'placeholders' => [
+//        'full_name', => __('Full name'),
+    ],
+
 ];
