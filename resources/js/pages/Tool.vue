@@ -5,16 +5,8 @@
     <Heading class="mb-6">{{ __('Pdf Manager') }}</Heading>
 
     <Card class="p-6">
-      <!--      <h1 class="text-4xl font-light mb-6">{{ __('Upload PDF') }}</h1>-->
 
       <div class="space-y-4">
-
-        <ConfirmUploadRemovalModal
-            :show="removeModalOpen"
-            @confirm="confirmRemove"
-            @close="removeModalOpen = false"
-        />
-
         <DropZone
             :files="files"
             :accepted-types="'application/pdf'"
@@ -22,11 +14,32 @@
             @file-removed="onFileRemoved"
         />
 
-        <Button class="mt-4 p-2 dark:bg-blue-950 bg-blue-700" :disabled="!file || uploading" @click="upload"
-                variant="action">
+        <Button class="mt-4" :disabled="!file || uploading" @click="upload">
           {{ __('Upload') }}
         </Button>
         <DividerLine class="w-full"/>
+      </div>
+
+      <!-- Master–detail layout -->
+      <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Left: document list (1/3) -->
+        <div class="md:col-span-1">
+          <Heading class="mb-4 text-base">{{ __('Available Documents') }}</Heading>
+
+          <DocumentList
+            ref="docList"
+            :selected-id="selectedDocument ? selectedDocument.id : null"
+            @select="onSelectDocument"
+          />
+        </div>
+
+        <!-- Right: detail (2/3) -->
+        <div class="md:col-span-2 min-h-[300px]">
+          <DocumentDetail
+            :document="selectedDocument"
+            :page-url-builder="buildPageUrl"
+          />
+        </div>
       </div>
 
     </Card>
@@ -34,8 +47,26 @@
 </template>
 
 <script>
+import { Button } from 'laravel-nova-ui'
+import DocumentList from '../components/DocumentList.vue'
+import DocumentDetail from '../components/DocumentDetail.vue'
 export default {
-  data: () => ({files: [], file: null, previewFile: null, uploading: false, removeModalOpen: false}),
+  data: () => ({
+    files: [],
+    file: null,
+    previewFile: null,
+    uploading: false,
+    removeModalOpen: false,
+    selectedDocument: null,
+  }),
+  components: {
+    Button,
+    DocumentList,
+    DocumentDetail,
+  },
+  mounted() {
+    // DocumentList handles its own loading
+  },
   methods: {
     onFileChanged(file) {
       // Check if the file is actually an array. If yes, take only the first element.
@@ -49,6 +80,14 @@ export default {
       this.file = null;
       this.files = [];
       this.previewFile = null
+    },
+    onSelectDocument(doc) {
+      this.selectedDocument = doc || null
+    },
+    buildPageUrl(docId, pageNumber) {
+      if (!docId || !pageNumber) return null
+      // Nova tool routes are prefixed with /nova-vendor/papertrail
+      return `/nova-vendor/papertrail/documents/${docId}/pages/${pageNumber}`
     },
     async upload() {
       if (!this.file) return
@@ -65,11 +104,16 @@ export default {
 
         console.info('Response', {response})
         this.onFileRemoved()
+        if (success) {
+          // Ask the list to refresh itself
+          this.$refs.docList && this.$refs.docList.reload && this.$refs.docList.reload()
+        }
       } finally {
         this.uploading = false
       }
     },
   },
+  computed: {}
 }
 </script>
 
