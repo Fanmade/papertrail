@@ -31,6 +31,7 @@ class GeneratePdfThumbnail implements ShouldQueue
 
         $options = [
             'target_dir' => $rootDir,
+            'disk' => $paths->disk(),
         ];
 
         $targetBase = $this->thumbnailPath ? pathinfo($this->thumbnailPath, PATHINFO_FILENAME) : 'thumb';
