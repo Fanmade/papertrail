@@ -8,6 +8,7 @@ use Vqs\Papertrail\Jobs\ExtractFormFields;
 use Vqs\Papertrail\Jobs\ExtractPdfPageMetadata;
 use Vqs\Papertrail\Jobs\GeneratePdfPageImages;
 use Vqs\Papertrail\Jobs\GeneratePdfThumbnail;
+use Vqs\Papertrail\Jobs\FinalizeProcessedPdf;
 use Vqs\Papertrail\Models\PdfDocument;
 
 use function response;
@@ -37,11 +38,12 @@ class UploadPdfController
         // Generate thumbnail independently
         GeneratePdfThumbnail::dispatch($file);
 
-        // Ensure images are generated only after metadata extraction finished
+        // Ensure images are generated only after metadata extraction finished and finalize at the end
         Bus::chain(
             [
                 new ExtractPdfPageMetadata($file, $doc->id),
                 new GeneratePdfPageImages($file, $doc->id),
+                new FinalizeProcessedPdf($file, $doc->id),
             ]
         )->dispatch();
 
