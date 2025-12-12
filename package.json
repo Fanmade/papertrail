@@ -9,6 +9,8 @@
     "production": "mix --production"
   },
   "devDependencies": {
-    "laravel-nova-devtool": "file:vendor/laravel/nova-devtool"
+    "autoprefixer": "^10.4.20",
+    "laravel-nova-devtool": "file:vendor/laravel/nova-devtool",
+    "tailwindcss": "^3.4.14"
   }
 }
