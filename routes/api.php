@@ -18,3 +18,9 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::post('/upload', \Vqs\Papertrail\Http\Controllers\UploadPdfController::class);
+Route::get('/documents', \Vqs\Papertrail\Http\Controllers\ListDocumentsController::class);
+Route::get('/documents/{document}/thumb', \Vqs\Papertrail\Http\Controllers\GetThumbController::class)
+    ->name('papertrail.documents.thumb');
+Route::get('/documents/{document}/pages/{page}', \Vqs\Papertrail\Http\Controllers\GetPageImageController::class)
+    ->whereNumber('page')
+    ->name('papertrail.documents.page');
