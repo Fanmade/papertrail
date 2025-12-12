@@ -1,6 +1,28 @@
 {
-  "Upload": "Hochladen",
-  "Upload PDF": "PDF hochladen",
+  "Available Documents": "Verfügbare Dokumente",
+  "Close": "Schließen",
+  "Created at": "Erstellt am",
+  "Failed to load documents": "Dokumente konnten nicht geladen werden",
+  "Failed to save": "Speichern fehlgeschlagen",
+  "File uploaded successfully": "Datei erfolgreich hochgeladen",
+  "Loading…": "Laden…",
   "No PDFs found": "Keine PDFs gefunden",
-  "File uploaded successfully": "Datei erfolgreich hochgeladen"
+  "No documents yet": "Noch keine Dokumente",
+  "No fields on this page": "Keine Felder auf dieser Seite",
+  "None": "Keiner",
+  "Page": "Seite",
+  "Pages": "Seiten",
+  "Placeholder": "Platzhalter",
+  "Processing…": "Wird verarbeitet…",
+  "Save": "Speichern",
+  "Saved": "Gespeichert",
+  "Select a document to view": "Wählen Sie ein Dokument zur Ansicht",
+  "Upload": "Hochladen",
+  "Upload PDF": "PDF hochladen"
+  ,
+  "Full name": "Vollständiger Name",
+  "Company": "Firma",
+  "Birthdate": "Geburtsdatum",
+  "Address line 1": "Adresszeile 1",
+  "Zip and city": "PLZ und Ort"
 }
