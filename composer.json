@@ -1,0 +1,45 @@
+{
+  "name": "vqs/papertrail",
+  "description": "A Laravel Nova tool to manage PDF files.",
+  "keywords": [
+    "laravel",
+    "nova",
+    "pdf"
+  ],
+  "license": "MIT",
+  "require": {
+    "php": "^8.1",
+    "ext-imagick": "*",
+    "ext-gd": "*",
+    "illuminate/support": "^10.0|^11.0|^12.0",
+    "mikehaertl/php-pdftk": "^0.14",
+    "spatie/pdf-to-image": "^3.1"
+  },
+  "require-dev": {
+    "laravel/nova": "^5.0",
+    "laravel/nova-devtool": "^1.7"
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://nova.laravel.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Vqs\\Papertrail\\": "src/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Vqs\\Papertrail\\PapertrailServiceProvider"
+      ]
+    }
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
