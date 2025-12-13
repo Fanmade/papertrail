@@ -2,6 +2,9 @@
 
 A Laravel Nova tool for uploading PDFs, extracting metadata and adding placeholders to form input fields.
 
+# Warning!
+**It is currently being developed for a specific project and not yet ready for general use.**
+
 ## Installation
 Install the package via composer:   
 `composer require fanmade/nova-papertrail`
