@@ -15,10 +15,8 @@ return new class extends Migration
                 $table->string('name');
                 $table->string('path');
                 $table->string('mime');
-                $table->string('insurance_id')->nullable();
                 $table->integer('pages');
                 $table->integer('size');
-                $table->string('status')->nullable();
                 $table->timestamps();
 
                 $table->index('path');
