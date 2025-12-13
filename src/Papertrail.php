@@ -22,7 +22,7 @@ class Papertrail extends Tool
      */
     public function menu(Request $request): MenuSection
     {
-        return MenuSection::make('Pdf Manager')
+        return MenuSection::make(__('Pdf Manager'))
             ->path('/papertrail')
             ->icon('server');
     }

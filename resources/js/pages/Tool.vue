@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="papertrail-tool">
     <Head :title="__('Pdf Manager')"/>
 
     <Heading class="mb-6">{{ __('Pdf Manager') }}</Heading>
