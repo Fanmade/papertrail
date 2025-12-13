@@ -1,12 +1,12 @@
 <?php
 
-namespace Vqs\Papertrail\Http\Controllers;
+namespace Fanmade\Papertrail\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
-use Vqs\Papertrail\Models\PdfDocument;
+use Fanmade\Papertrail\Models\PdfDocument;
 
 use function response;
 

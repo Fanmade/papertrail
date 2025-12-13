@@ -1,6 +1,6 @@
 <?php
 
-namespace Vqs\Papertrail\Jobs;
+namespace Fanmade\Papertrail\Jobs;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -8,8 +8,8 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
-use Vqs\Papertrail\Contracts\PdfImageGenerator;
-use Vqs\Papertrail\Services\ProcessedPathBuilder;
+use Fanmade\Papertrail\Contracts\PdfImageGenerator;
+use Fanmade\Papertrail\Services\ProcessedPathBuilder;
 
 class GeneratePdfThumbnail implements ShouldQueue
 {

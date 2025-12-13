@@ -1,13 +1,13 @@
 <?php
 
-namespace Vqs\Papertrail\Http\Middleware;
+namespace Fanmade\Papertrail\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
 use Laravel\Nova\Nova;
 use Laravel\Nova\Tool;
 use Symfony\Component\HttpFoundation\Response;
-use Vqs\Papertrail\Papertrail;
+use Fanmade\Papertrail\Papertrail;
 
 class Authorize
 {

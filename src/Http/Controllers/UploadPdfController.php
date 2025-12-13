@@ -1,15 +1,15 @@
 <?php
 
-namespace Vqs\Papertrail\Http\Controllers;
+namespace Fanmade\Papertrail\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Bus;
-use Vqs\Papertrail\Jobs\ExtractFormFields;
-use Vqs\Papertrail\Jobs\ExtractPdfPageMetadata;
-use Vqs\Papertrail\Jobs\GeneratePdfPageImages;
-use Vqs\Papertrail\Jobs\GeneratePdfThumbnail;
-use Vqs\Papertrail\Jobs\FinalizeProcessedPdf;
-use Vqs\Papertrail\Models\PdfDocument;
+use Fanmade\Papertrail\Jobs\ExtractFormFields;
+use Fanmade\Papertrail\Jobs\ExtractPdfPageMetadata;
+use Fanmade\Papertrail\Jobs\GeneratePdfPageImages;
+use Fanmade\Papertrail\Jobs\GeneratePdfThumbnail;
+use Fanmade\Papertrail\Jobs\FinalizeProcessedPdf;
+use Fanmade\Papertrail\Models\PdfDocument;
 
 use function response;
 

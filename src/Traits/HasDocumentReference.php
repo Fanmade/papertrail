@@ -1,8 +1,8 @@
 <?php
 
-namespace Vqs\Papertrail\Traits;
+namespace Fanmade\Papertrail\Traits;
 
-use Vqs\Papertrail\Models\PdfDocument;
+use Fanmade\Papertrail\Models\PdfDocument;
 
 trait HasDocumentReference
 {

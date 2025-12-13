@@ -1,11 +1,11 @@
 <?php
 
-namespace Vqs\Papertrail\Services;
+namespace Fanmade\Papertrail\Services;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Process;
 use Storage;
-use Vqs\Papertrail\Contracts\PdfImageGenerator;
+use Fanmade\Papertrail\Contracts\PdfImageGenerator;
 
 use function pathinfo;
 

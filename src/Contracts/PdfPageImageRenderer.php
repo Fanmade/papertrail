@@ -1,6 +1,6 @@
 <?php
 
-namespace Vqs\Papertrail\Contracts;
+namespace Fanmade\Papertrail\Contracts;
 
 /**
  * Generates page images and reports render metrics (no page-size extraction in points).

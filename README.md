@@ -4,10 +4,10 @@ A Laravel Nova tool for uploading PDFs, extracting metadata and adding placehold
 
 ## Installation
 Install the package via composer:   
-`composer require vqs-soltions/nova-papertrail`
+`composer require fanmade/nova-papertrail`
 
 Run the publish command:  
- `php artisan  vendor:publish --provider="Vqs\Papertrail\PapertrailServiceProvider"`  
+ `php artisan  vendor:publish --provider="Fanmade\Papertrail\PapertrailServiceProvider"`  
 
 If you only want to publish the config file:  
 `php artisan vendor:publish --tag=papertrail-config`

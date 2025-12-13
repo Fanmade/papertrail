@@ -1,20 +1,20 @@
 <?php
 
-namespace Vqs\Papertrail;
+namespace Fanmade\Papertrail;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Nova\Events\ServingNova;
 use Laravel\Nova\Nova;
-use Vqs\Papertrail\Contracts\PdfFormFieldExtractor;
-use Vqs\Papertrail\Contracts\PdfImageGenerator;
-use Vqs\Papertrail\Contracts\PdfPageImageRenderer;
-use Vqs\Papertrail\Contracts\PdfPageMetadataExtractor;
-use Vqs\Papertrail\Http\Middleware\Authorize;
-use Vqs\Papertrail\Services\ImagickPdfImageRenderer;
-use Vqs\Papertrail\Services\ImagickPdfPageMetadataExtractor;
-use Vqs\Papertrail\Services\PopplerPdfImageGenerator;
-use Vqs\Papertrail\Services\PythonFormFieldsExtractor;
+use Fanmade\Papertrail\Contracts\PdfFormFieldExtractor;
+use Fanmade\Papertrail\Contracts\PdfImageGenerator;
+use Fanmade\Papertrail\Contracts\PdfPageImageRenderer;
+use Fanmade\Papertrail\Contracts\PdfPageMetadataExtractor;
+use Fanmade\Papertrail\Http\Middleware\Authorize;
+use Fanmade\Papertrail\Services\ImagickPdfImageRenderer;
+use Fanmade\Papertrail\Services\ImagickPdfPageMetadataExtractor;
+use Fanmade\Papertrail\Services\PopplerPdfImageGenerator;
+use Fanmade\Papertrail\Services\PythonFormFieldsExtractor;
 
 class PapertrailServiceProvider extends ServiceProvider
 {

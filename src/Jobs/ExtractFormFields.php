@@ -1,15 +1,15 @@
 <?php
 
-namespace Vqs\Papertrail\Jobs;
+namespace Fanmade\Papertrail\Jobs;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Storage;
-use Vqs\Papertrail\Contracts\PdfFormFieldExtractor;
-use Vqs\Papertrail\Models\PdfField;
-use Vqs\Papertrail\Traits\HasDocumentReference;
+use Fanmade\Papertrail\Contracts\PdfFormFieldExtractor;
+use Fanmade\Papertrail\Models\PdfField;
+use Fanmade\Papertrail\Traits\HasDocumentReference;
 
 class ExtractFormFields implements ShouldQueue
 {

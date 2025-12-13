@@ -1,5 +1,5 @@
 {
-  "name": "vqs/papertrail",
+  "name": "fanmade/papertrail",
   "description": "A Laravel Nova tool to manage PDF files.",
   "keywords": [
     "laravel",
@@ -27,13 +27,13 @@
   ],
   "autoload": {
     "psr-4": {
-      "Vqs\\Papertrail\\": "src/"
+      "Fanmade\\Papertrail\\": "src/"
     }
   },
   "extra": {
     "laravel": {
       "providers": [
-        "Vqs\\Papertrail\\PapertrailServiceProvider"
+        "Fanmade\\Papertrail\\PapertrailServiceProvider"
       ]
     }
   },

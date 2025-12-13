@@ -1,6 +1,6 @@
 <?php
 
-namespace Vqs\Papertrail\Contracts;
+namespace Fanmade\Papertrail\Contracts;
 
 interface PdfImageGenerator
 {

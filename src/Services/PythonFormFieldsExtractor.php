@@ -1,10 +1,10 @@
 <?php
 
-namespace Vqs\Papertrail\Services;
+namespace Fanmade\Papertrail\Services;
 
 use Illuminate\Support\Facades\Process;
-use Vqs\Papertrail\Contracts\PdfFormFieldExtractor;
-use Vqs\Papertrail\Types\PdfFormField;
+use Fanmade\Papertrail\Contracts\PdfFormFieldExtractor;
+use Fanmade\Papertrail\Types\PdfFormField;
 
 use function json_decode;
 

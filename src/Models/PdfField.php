@@ -1,9 +1,9 @@
 <?php
 
-namespace Vqs\Papertrail\Models;
+namespace Fanmade\Papertrail\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Vqs\Papertrail\Types\PdfFormField;
+use Fanmade\Papertrail\Types\PdfFormField;
 
 /**
  * @var int $id

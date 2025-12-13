@@ -1,6 +1,6 @@
 <?php
 
-namespace Vqs\Papertrail\Support;
+namespace Fanmade\Papertrail\Support;
 
 final class FieldCoordinateNormalizer
 {

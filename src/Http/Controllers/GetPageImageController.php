@@ -1,9 +1,9 @@
 <?php
 
-namespace Vqs\Papertrail\Http\Controllers;
+namespace Fanmade\Papertrail\Http\Controllers;
 
 use Illuminate\Support\Facades\Storage;
-use Vqs\Papertrail\Models\PdfDocument;
+use Fanmade\Papertrail\Models\PdfDocument;
 
 class GetPageImageController
 {

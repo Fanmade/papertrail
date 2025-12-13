@@ -1,6 +1,6 @@
 <?php
 
-namespace Vqs\Papertrail\Http\Controllers;
+namespace Fanmade\Papertrail\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Vqs\Papertrail\Services;
+namespace Fanmade\Papertrail\Services;
 
 use Carbon\CarbonInterface;
 use Illuminate\Support\Facades\Storage;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Vqs\Papertrail\Types;
+namespace Fanmade\Papertrail\Types;
 
 enum PdfFieldType: string
 {

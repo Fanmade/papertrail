@@ -1,6 +1,6 @@
 <?php
 
-namespace Vqs\Papertrail\Jobs;
+namespace Fanmade\Papertrail\Jobs;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -8,9 +8,9 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
-use Vqs\Papertrail\Contracts\PdfPageMetadataExtractor;
-use Vqs\Papertrail\Models\PdfPage;
-use Vqs\Papertrail\Traits\HasDocumentReference;
+use Fanmade\Papertrail\Contracts\PdfPageMetadataExtractor;
+use Fanmade\Papertrail\Models\PdfPage;
+use Fanmade\Papertrail\Traits\HasDocumentReference;
 
 class ExtractPdfPageMetadata implements ShouldQueue
 {

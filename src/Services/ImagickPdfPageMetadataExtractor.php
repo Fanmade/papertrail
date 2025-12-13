@@ -1,9 +1,9 @@
 <?php
 
-namespace Vqs\Papertrail\Services;
+namespace Fanmade\Papertrail\Services;
 
 use Imagick;
-use Vqs\Papertrail\Contracts\PdfPageMetadataExtractor;
+use Fanmade\Papertrail\Contracts\PdfPageMetadataExtractor;
 
 use function max;
 

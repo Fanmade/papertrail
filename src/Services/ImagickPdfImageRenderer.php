@@ -1,13 +1,13 @@
 <?php
 
-namespace Vqs\Papertrail\Services;
+namespace Fanmade\Papertrail\Services;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 use Imagick;
 use ImagickPixel;
-use Vqs\Papertrail\Contracts\PdfImageGenerator;
-use Vqs\Papertrail\Contracts\PdfPageImageRenderer;
+use Fanmade\Papertrail\Contracts\PdfImageGenerator;
+use Fanmade\Papertrail\Contracts\PdfPageImageRenderer;
 
 use function logger;
 use function max;
@@ -131,7 +131,6 @@ class ImagickPdfImageRenderer implements PdfImageGenerator, PdfPageImageRenderer
             }// end for
             // Free the main Imagick instance
             $imagick->clear();
-            logger()->debug('Rendered all pages', ['count' => count($results)]);
 
             return $results;
         } catch (\ImagickException $e) {

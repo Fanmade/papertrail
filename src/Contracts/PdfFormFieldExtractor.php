@@ -1,11 +1,11 @@
 <?php
 
-namespace Vqs\Papertrail\Contracts;
+namespace Fanmade\Papertrail\Contracts;
 
 interface PdfFormFieldExtractor
 {
     /**
-     * @return array<\Vqs\Papertrail\Types\PdfFormField>
+     * @return array<\Fanmade\Papertrail\Types\PdfFormField>
      */
     public function extractFields(string $pdfAbsolutePath): array;
 }

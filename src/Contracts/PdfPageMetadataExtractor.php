@@ -1,6 +1,6 @@
 <?php
 
-namespace Vqs\Papertrail\Contracts;
+namespace Fanmade\Papertrail\Contracts;
 
 /**
  * Extracts per-page metadata from a PDF without generating any images.

@@ -1,13 +1,13 @@
 <?php
 
-namespace Vqs\Papertrail\Http\Controllers;
+namespace Fanmade\Papertrail\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Vqs\Papertrail\Models\PdfDocument;
-use Vqs\Papertrail\Models\PdfField;
-use Vqs\Papertrail\Models\PdfPage;
-use Vqs\Papertrail\Support\FieldCoordinateNormalizer;
+use Fanmade\Papertrail\Models\PdfDocument;
+use Fanmade\Papertrail\Models\PdfField;
+use Fanmade\Papertrail\Models\PdfPage;
+use Fanmade\Papertrail\Support\FieldCoordinateNormalizer;
 
 use function response;
 

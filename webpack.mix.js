@@ -8,5 +8,5 @@ mix
   .js('resources/js/tool.js', 'js')
   .vue({ version: 3 })
   .css('resources/css/tool.css', 'css')
-  .nova('vqs/papertrail')
+  .nova('fanmade/papertrail')
   .version()

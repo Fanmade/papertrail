@@ -1,6 +1,6 @@
 <?php
 
-namespace Vqs\Papertrail;
+namespace Fanmade\Papertrail;
 
 use Illuminate\Http\Request;
 use Laravel\Nova\Menu\MenuSection;

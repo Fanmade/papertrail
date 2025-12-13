@@ -1,11 +1,11 @@
 <?php
 
-namespace Vqs\Papertrail\Http\Controllers;
+namespace Fanmade\Papertrail\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-use Vqs\Papertrail\Models\PdfField;
+use Fanmade\Papertrail\Models\PdfField;
 
 use function config;
 use function response;
