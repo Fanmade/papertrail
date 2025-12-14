@@ -118,7 +118,7 @@ class PapertrailServiceProvider extends ServiceProvider
             FormFiller::class,
             function () {
                 return match (config('papertrail.form_filler')) {
-                    'python' => new PythonFormFieldsExtractor,
+                    'python' => new PythonFormFiller,
                     default => throw new \Exception('Invalid form filler'),
                 };
             }
