@@ -43,7 +43,7 @@ class PythonFormFiller implements FormFiller
             file_put_contents($tempJsonPath, json_encode($fieldData));
 
             // 4. Run Python Script
-            $scriptPath = base_path('scripts/fill_form.py');
+            $scriptPath = __DIR__ . '/../../scripts/fill_form.py';
 
             $result = Process::run([
                 'python3',
