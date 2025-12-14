@@ -3,12 +3,15 @@
 namespace Fanmade\Papertrail\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 use Fanmade\Papertrail\Models\PdfDocument;
 
 use function response;
+use function config;
+use function route;
+use function rtrim;
+use function strtolower;
 
 class ListDocumentsController
 {
@@ -22,7 +25,6 @@ class ListDocumentsController
             $query->where('name', 'like', "%{$search}%");
         }
 
-        /** @var LengthAwarePaginator $paginator */
         $paginator = $query->paginate($perPage);
 
         $processedCfg = (array) config('papertrail.processed', []);
@@ -44,10 +46,10 @@ class ListDocumentsController
             $thumbAvailable = $thumbPath && $disk->exists($thumbPath);
 
             return [
-                'id' => (string) $doc->id,
-                'name' => (string) $doc->name,
-                'pages' => (int) $doc->pages,
-                'path' => (string) $doc->path,
+                'id' => $doc->id,
+                'name' => $doc->name,
+                'pages' => $doc->pages,
+                'path' => $doc->path,
                 'created_at' => optional($doc->created_at)->toISOString(),
                 'thumb_path' => $thumbPath,
                 'thumb_url' => $thumbUrl,

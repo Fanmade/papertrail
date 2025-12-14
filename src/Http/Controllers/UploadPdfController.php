@@ -21,7 +21,7 @@ class UploadPdfController
         if (! $uploadedFile) {
             return response()->json(['success' => false]);
         }
-        $file = $uploadedFile->store('uploads', 'papertrail');
+        $file = $uploadedFile->store('uploads');
 
         if (! $file) {
             return response()->json(['success' => false]);
@@ -35,20 +35,16 @@ class UploadPdfController
                 'pages' => 0,
             ]
         );
-        // Generate thumbnail independently
-        GeneratePdfThumbnail::dispatch($file);
 
-        // Ensure images are generated only after metadata extraction finished and finalize at the end
         Bus::chain(
             [
+                new GeneratePdfThumbnail($file),
                 new ExtractPdfPageMetadata($file, $doc->id),
                 new GeneratePdfPageImages($file, $doc->id),
+                new ExtractFormFields($file, $doc->id),
                 new FinalizeProcessedPdf($file, $doc->id),
             ]
         )->dispatch();
-
-        // Other jobs remain independent
-        ExtractFormFields::dispatch($file, documentId: $doc->id);
 
         return response()->json(
             [
