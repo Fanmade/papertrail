@@ -7,8 +7,18 @@
     <div v-else class="space-y-4">
       <!-- Document details header -->
       <div class="p-4 border rounded bg-white dark:bg-gray-900">
-        <div class="flex items-center justify-between">
-          <div>
+        <div class="flex items-start gap-3">
+          <button
+              type="button"
+              class="shrink-0 inline-flex items-center justify-center w-8 h-8 rounded hover:bg-gray-100 dark:hover:bg-gray-800"
+              :aria-label="__('Close detail view')"
+              @click="$emit('close')"
+          >
+            <span class="text-xl leading-none">&times;</span>
+          </button>
+
+
+          <div class="min-w-0 flex-1">
             <div class="text-lg font-semibold truncate">{{ document.name }}</div>
             <div class="text-xs text-gray-500">
               {{ __('Pages') }}: {{ document.pages }}

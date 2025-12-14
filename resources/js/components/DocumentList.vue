@@ -64,11 +64,6 @@ export default {
         this.documents.forEach(doc => {
           if (!doc.thumb_available) this.startThumbPolling(doc)
         })
-        // Auto-select first if none
-        if (!this.effectiveSelectedId && this.documents.length > 0) {
-          this.internalSelectedId = this.documents[0].id
-          this.$emit('select', this.documents[0])
-        }
       } catch (e) {
         this.error = true
       } finally {
@@ -79,6 +74,10 @@ export default {
       // Public method callable by parent via ref
       this.cancelAllThumbPolling()
       this.loadDocuments()
+    },
+    clearSelection() {
+      // Public method callable by parent via ref
+      this.internalSelectedId = null
     },
     select(doc) {
       this.internalSelectedId = doc?.id ?? null
@@ -143,6 +142,3 @@ export default {
   },
 }
 </script>
-
-<style scoped>
-</style>

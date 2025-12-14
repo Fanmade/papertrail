@@ -21,9 +21,12 @@
       </div>
 
       <!-- Master–detail layout -->
-      <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div
+          class="mt-6 gap-6"
+          :class="selectedDocument ? 'grid grid-cols-1 md:grid-cols-4' : 'grid grid-cols-1'"
+      >
         <!-- Left: document list (1/3) -->
-        <div class="md:col-span-1">
+        <div :class="selectedDocument ? 'md:col-span-1' : 'md:col-span-4'">
           <Heading class="mb-4 text-base">{{ __('Available Documents') }}</Heading>
 
           <DocumentList
@@ -34,10 +37,11 @@
         </div>
 
         <!-- Right: detail (2/3) -->
-        <div class="md:col-span-2 min-h-[300px]">
+        <div v-if="selectedDocument" class="md:col-span-3 min-h-[300px]">
           <DocumentDetail
             :document="selectedDocument"
             :page-url-builder="buildPageUrl"
+            @close="onCloseDetail"
           />
         </div>
       </div>
@@ -64,9 +68,6 @@ export default {
     DocumentList,
     DocumentDetail,
   },
-  mounted() {
-    // DocumentList handles its own loading
-  },
   methods: {
     onFileChanged(file) {
       // Check if the file is actually an array. If yes, take only the first element.
@@ -89,6 +90,10 @@ export default {
       // Nova tool routes are prefixed with /nova-vendor/papertrail
       return `/nova-vendor/papertrail/documents/${docId}/pages/${pageNumber}`
     },
+    onCloseDetail() {
+      this.selectedDocument = null
+      this.$refs.docList && this.$refs.docList.clearSelection && this.$refs.docList.clearSelection()
+    },
     async upload() {
       if (!this.file) return
       this.uploading = true
@@ -102,7 +107,6 @@ export default {
           type: success ? 'success' : 'error',
         })
 
-        console.info('Response', {response})
         this.onFileRemoved()
         if (success) {
           // Ask the list to refresh itself
@@ -116,7 +120,3 @@ export default {
   computed: {}
 }
 </script>
-
-<style>
-/* Scoped Styles */
-</style>
