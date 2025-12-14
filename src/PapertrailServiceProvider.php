@@ -2,6 +2,8 @@
 
 namespace Fanmade\Papertrail;
 
+use Fanmade\Papertrail\Contracts\FormFiller;
+use Fanmade\Papertrail\Services\PythonFormFiller;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Nova\Events\ServingNova;
@@ -108,6 +110,16 @@ class PapertrailServiceProvider extends ServiceProvider
                 return match (config('papertrail.fields_driver')) {
                     'python' => new PythonFormFieldsExtractor,
                     default => throw new \Exception('Invalid fields driver'),
+                };
+            }
+        );
+
+        $this->app->bind(
+            FormFiller::class,
+            function () {
+                return match (config('papertrail.form_filler')) {
+                    'python' => new PythonFormFieldsExtractor,
+                    default => throw new \Exception('Invalid form filler'),
                 };
             }
         );

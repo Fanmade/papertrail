@@ -3,6 +3,7 @@
 return [
     'thumb_driver' => env('PAPERTRAIL_THUMBNAIL_DRIVER', 'imagick'), // imagick|poppler|spatie
     'fields_driver' => env('PAPERTRAIL_FIELDS_DRIVER', 'python'),
+    'form_filler' => env('PAPERTRAIL_FORM_FILLER', 'python'),
     'thumb_disk' => env('PAPERTRAIL_THUMBNAIL_DISK', 'papertrail'),
     'thumb_path' => env('PAPERTRAIL_THUMBNAIL_PATH', 'thumbnails/pdfs'),
 
