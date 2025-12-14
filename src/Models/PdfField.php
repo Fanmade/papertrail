@@ -6,17 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 use Fanmade\Papertrail\Types\PdfFormField;
 
 /**
- * @var int $id
- * @var string $name
- * @var string|null $value
- * @var string $document_id
- * @var string|null $type
- * @var int $page_number
- * @var float $x
- * @var float $y
- * @var float $width
- * @var float $height
- * @var string|null $assigned_placeholder
+ * @property int $id
+ * @property string $name
+ * @property string|null $value
+ * @property string $document_id
+ * @property string|null $type
+ * @property int $page_number
+ * @property float $x
+ * @property float $y
+ * @property float $width
+ * @property float $height
+ * @property string|null $assigned_placeholder
  */
 class PdfField extends Model
 {

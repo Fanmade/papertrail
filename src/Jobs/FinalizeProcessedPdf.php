@@ -37,7 +37,7 @@ class FinalizeProcessedPdf implements ShouldQueue
         $sourceDisk = Storage::disk($this->disk);
         $destDisk = Storage::disk($paths->disk());
 
-        // If disks differ, copy then delete; else move/rename
+        // If disks differ, copy then delete it; else move/rename
         if ($this->disk !== $paths->disk()) {
             $stream = $sourceDisk->readStream($this->pdfPath);
             if ($stream === false) {
@@ -49,12 +49,11 @@ class FinalizeProcessedPdf implements ShouldQueue
             }
             $sourceDisk->delete($this->pdfPath);
         } else {
-            // Same disk; perform a move within disk
+            // Same disk; perform a move within the disk
             $sourceDisk->move($this->pdfPath, $destination);
         }
 
         // Store only the processed directory path on the document record
-        /** @var PdfDocument $doc */
         $doc->update([
             'path' => $rootDir,
         ]);

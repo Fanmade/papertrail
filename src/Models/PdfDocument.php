@@ -7,20 +7,26 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * @var string $id UUID
- * @var string $name
- * @var string $path
- * @var string $mime
- * @var int $pages
- * @var int $size
+ * @property string $id UUID
+ * @property string $name
+ * @property string $path
+ * @property string $mime
+ * @property int $pages
+ * @property int $size
+ * @property null|\Illuminate\Support\Carbon $created_at
+ * @property null|\Illuminate\Support\Carbon $updated_at
  */
 class PdfDocument extends Model
 {
     use HasUuids;
-
     protected $guarded = [];
 
     public $incrementing = false;
+
+    public function getFullPath(): string
+    {
+        return $this->path . DIRECTORY_SEPARATOR . 'document.pdf';
+    }
 
     /**
      * Get all the fields for the PdfDocument
