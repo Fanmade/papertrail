@@ -9,8 +9,10 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use League\Flysystem\Local\LocalFilesystemAdapter;
 
-use function base_path;
+use function dirname;
 use function json_encode;
+use function logger;
+use function mkdir;
 use function storage_path;
 use function tempnam;
 use function unlink;
@@ -31,18 +33,23 @@ class PythonFormFiller implements FormFiller
         $tempJsonPath = null;
 
         try {
-            // 1. Resolve the Input PDF Path (Handle S3 vs Local)
+            // 1. Resolve the Input PDF Path (Handle S3 vs. Local)
             $inputPath = $this->resolveLocalPdfPath($document, $tempInputPath);
 
             // 2. Prepare Output Path
             $outputPath = $savePath ?? storage_path('app/generated/' . Str::random(16) . '.pdf');
 
-            // 3. Prepare Data (Write JSON to file to be safe)
+            // 3. Create the output directory if it doesn't exist
+            if (!file_exists(dirname($outputPath)) && !mkdir($concurrentDirectory = dirname($outputPath), 0755, true) && !is_dir($concurrentDirectory)) {
+                throw new \RuntimeException(sprintf('Directory "%s" was not created', $concurrentDirectory));
+            }
+
+            // 4. Prepare Data (Write JSON to file to be safe)
             $fieldData = $this->mapFieldsToData($document, $contextData);
             $tempJsonPath = tempnam(sys_get_temp_dir(), 'pdf_data');
             file_put_contents($tempJsonPath, json_encode($fieldData));
 
-            // 4. Run Python Script
+            // 5. Run the Python script
             $scriptPath = __DIR__ . '/../../scripts/fill_form.py';
 
             $result = Process::run([
@@ -54,7 +61,13 @@ class PythonFormFiller implements FormFiller
             ]);
 
             if ($result->failed()) {
-                throw new \Exception("PDF Generation failed: " . $result->errorOutput());
+                logger()->error('PDF Generation failed', [
+                    'command' => $result->command(),
+                    'exitCode' => $result->exitCode(),
+                    'errorOutput' => $result->errorOutput(),
+                    'output' => $result->output(),
+                ]);
+                throw new \RuntimeException("PDF Generation failed: " . $result->errorOutput());
             }
 
             return $outputPath;
