@@ -2,24 +2,22 @@
 
 namespace Fanmade\Papertrail\Jobs;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Storage;
 use Fanmade\Papertrail\Contracts\PdfPageMetadataExtractor;
 use Fanmade\Papertrail\Models\PdfPage;
 use Fanmade\Papertrail\Traits\HasDocumentReference;
+use Illuminate\Bus\Batchable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Queue\Queueable;
+use Illuminate\Support\Facades\Storage;
 
 class ExtractPdfPageMetadata implements ShouldQueue
 {
-    use Dispatchable, HasDocumentReference, InteractsWithQueue, Queueable, SerializesModels;
+    use Batchable, HasDocumentReference, Queueable;
 
     public function __construct(
-        public string $pdfPath,
+        public string  $pdfPath,
         public ?string $documentId = null,
-        public string $disk = 'papertrail',
+        public string  $disk = 'papertrail',
     ) {}
 
     public function handle(PdfPageMetadataExtractor $extractor): void
@@ -28,7 +26,7 @@ class ExtractPdfPageMetadata implements ShouldQueue
 
         $doc = $this->getDocument($this->documentId, $this->pdfPath);
 
-        if (! $doc) {
+        if (!$doc) {
             return;
         }
 
@@ -43,9 +41,9 @@ class ExtractPdfPageMetadata implements ShouldQueue
             PdfPage::query()->create(
                 [
                     'document_id' => $doc->id,
-                    'page_number' => (int) $page['page_number'],
-                    'width_pt' => (int) $page['width_pt'],
-                    'height_pt' => (int) $page['height_pt'],
+                    'page_number' => (int)$page['page_number'],
+                    'width_pt' => (int)$page['width_pt'],
+                    'height_pt' => (int)$page['height_pt'],
                 ]
             );
             $count++;

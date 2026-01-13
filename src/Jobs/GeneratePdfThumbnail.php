@@ -2,18 +2,16 @@
 
 namespace Fanmade\Papertrail\Jobs;
 
-use Illuminate\Bus\Queueable;
+use Illuminate\Bus\Batchable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
+use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\Storage;
 use Fanmade\Papertrail\Contracts\PdfImageGenerator;
 use Fanmade\Papertrail\Services\ProcessedPathBuilder;
 
 class GeneratePdfThumbnail implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Batchable, Queueable;
 
     public function __construct(
         public string $pdfPath,     // disk-relative
@@ -25,7 +23,7 @@ class GeneratePdfThumbnail implements ShouldQueue
     {
         $absolute = Storage::disk($this->disk)->path($this->pdfPath);
 
-        // Ensure processed root directory exists and place the thumb there as "thumb.[ext]"
+        // Ensure the processed root directory exists and place the thumb there as "thumb.[ext]"
         $rootDir = $paths->rootDir($this->pdfPath);
         $paths->ensureDir($rootDir);
 

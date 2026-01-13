@@ -2,25 +2,22 @@
 
 namespace Fanmade\Papertrail\Jobs;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Storage;
 use Fanmade\Papertrail\Contracts\PdfPageImageRenderer;
 use Fanmade\Papertrail\Services\ProcessedPathBuilder;
 use Fanmade\Papertrail\Traits\HasDocumentReference;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Queue\Queueable;
+use Illuminate\Support\Facades\Storage;
 
 class GeneratePdfPageImages implements ShouldQueue
 {
-    use Dispatchable, HasDocumentReference, InteractsWithQueue, Queueable, SerializesModels;
+    use HasDocumentReference, Queueable;
 
     public function __construct(
-        public string $pdfPath,
+        public string  $pdfPath,
         public ?string $documentId = null,
-        public string $disk = 'papertrail',
-        public array $options = [],
+        public string  $disk = 'papertrail',
+        public array   $options = [],
     ) {}
 
     public function handle(PdfPageImageRenderer $renderer, ProcessedPathBuilder $paths): void
@@ -29,7 +26,7 @@ class GeneratePdfPageImages implements ShouldQueue
         $base = pathinfo($this->pdfPath, PATHINFO_FILENAME);
         $doc = $this->getDocument($this->documentId, $this->pdfPath);
 
-        if (! $doc) {
+        if (!$doc) {
             return;
         }
 
@@ -52,11 +49,11 @@ class GeneratePdfPageImages implements ShouldQueue
             $doc->pages()->updateOrCreate(
                 [
                     'document_id' => $doc->id,
-                    'page_number' => (int) $data['page_number'],
+                    'page_number' => (int)$data['page_number'],
                 ],
                 [
                     'document_id' => $doc->id,
-                    'page_number' => (int) $data['page_number'],
+                    'page_number' => (int)$data['page_number'],
                     'width_px' => $data['width_px'],
                     'height_px' => $data['height_px'],
                     'dpi' => $data['dpi'],

@@ -8,7 +8,6 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
-use Fanmade\Papertrail\Models\PdfDocument;
 use Fanmade\Papertrail\Services\ProcessedPathBuilder;
 use Fanmade\Papertrail\Traits\HasDocumentReference;
 
