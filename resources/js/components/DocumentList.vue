@@ -26,6 +26,10 @@
           </div>
         </div>
       </div>
+      <!-- Pagination -->
+      <div v-if="hasPagination" class="w-full">
+        Pagination!
+      </div>
     </div>
   </div>
   
@@ -40,6 +44,12 @@ export default {
   },
   data: () => ({
     documents: [],
+    pagination: {
+      "current_page": 1,
+      "per_page": 0,
+      "total": 0,
+      "last_page": 1
+    },
     loading: false,
     error: false,
     thumbPollers: {},
@@ -49,6 +59,9 @@ export default {
     effectiveSelectedId() {
       return this.selectedId ?? this.internalSelectedId
     },
+    hasPagination() {
+      return this.pagination?.last_page > 1
+    }
   },
   mounted() {
     this.loadDocuments()
@@ -60,6 +73,9 @@ export default {
       try {
         const { data } = await Nova.request().get('/nova-vendor/papertrail/documents')
         const docs = Array.isArray(data?.data) ? data.data : []
+        // The pagination data should be in "data.meta" and contain a simple object
+        const paginationData = data?.meta ? data.meta : {}
+        this.setupPagination(paginationData)
         this.documents = docs.map(d => ({ ...d, _thumb_src: null }))
         this.documents.forEach(doc => {
           if (!doc.thumb_available) this.startThumbPolling(doc)
@@ -69,6 +85,26 @@ export default {
       } finally {
         this.loading = false
       }
+    },
+    setupPagination(paginationData = {}) {
+      const DEFAULT_PAGINATION = {
+        current_page: 1,
+        last_page: 1,
+        per_page: 15,
+        total: 0,
+      }
+
+      const {
+        current_page = DEFAULT_PAGINATION.current_page,
+        last_page = DEFAULT_PAGINATION.last_page,
+        per_page = DEFAULT_PAGINATION.per_page,
+        total = DEFAULT_PAGINATION.total,
+      } = paginationData ?? DEFAULT_PAGINATION
+
+      this.pagination.current_page = current_page
+      this.pagination.last_page = last_page
+      this.pagination.per_page = per_page
+      this.pagination.total = total
     },
     reload() {
       // Public method callable by parent via ref
