@@ -1,10 +1,14 @@
 {
+  "Address line 1": "Adresszeile 1",
   "Available Documents": "Verfügbare Dokumente",
+  "Birthdate": "Geburtsdatum",
   "Close": "Schließen",
+  "Company": "Firma",
   "Created at": "Erstellt am",
   "Failed to load documents": "Dokumente konnten nicht geladen werden",
   "Failed to save": "Speichern fehlgeschlagen",
   "File uploaded successfully": "Datei erfolgreich hochgeladen",
+  "Full name": "Vollständiger Name",
   "Loading…": "Laden…",
   "No PDFs found": "Keine PDFs gefunden",
   "No documents yet": "Noch keine Dokumente",
@@ -17,12 +21,8 @@
   "Save": "Speichern",
   "Saved": "Gespeichert",
   "Select a document to view": "Wählen Sie ein Dokument zur Ansicht",
+  "Showing :from-:to of :total": ":from–:to von :total",
   "Upload": "Hochladen",
-  "Upload PDF": "PDF hochladen"
-  ,
-  "Full name": "Vollständiger Name",
-  "Company": "Firma",
-  "Birthdate": "Geburtsdatum",
-  "Address line 1": "Adresszeile 1",
+  "Upload PDF": "PDF hochladen",
   "Zip and city": "PLZ und Ort"
 }

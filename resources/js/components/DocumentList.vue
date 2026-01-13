@@ -70,7 +70,14 @@ export default {
       return this.pagination?.last_page > 1
     },
     currentPageText() {
-      return `${this.pagination.current_page} - ${this.pagination.current_page + this.pagination.per_page - 1} {{ __('of') }} ${this.pagination.total}`
+      const from = (this.pagination.current_page - 1) * this.pagination.per_page + 1
+      const to = Math.min(from + this.pagination.per_page - 1, this.pagination.total)
+
+      return this.__('Showing :from-:to of :total', {
+        from,
+        to,
+        total: this.pagination.total,
+      })
     },
   },
   mounted() {
