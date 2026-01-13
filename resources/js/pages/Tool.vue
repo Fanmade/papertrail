@@ -30,18 +30,18 @@
           <Heading class="mb-4 text-base">{{ __('Available Documents') }}</Heading>
 
           <DocumentList
-            ref="docList"
-            :selected-id="selectedDocument ? selectedDocument.id : null"
-            @select="onSelectDocument"
+              ref="docList"
+              :selected-id="selectedDocument ? selectedDocument.id : null"
+              @select="onSelectDocument"
           />
         </div>
 
         <!-- Right: detail (2/3) -->
         <div v-if="selectedDocument" class="md:col-span-3 min-h-[300px]">
           <DocumentDetail
-            :document="selectedDocument"
-            :page-url-builder="buildPageUrl"
-            @close="onCloseDetail"
+              :document="selectedDocument"
+              :page-url-builder="buildPageUrl"
+              @close="onCloseDetail"
           />
         </div>
       </div>
@@ -51,9 +51,10 @@
 </template>
 
 <script>
-import { Button } from 'laravel-nova-ui'
+import {Button} from 'laravel-nova-ui'
 import DocumentList from '../components/DocumentList.vue'
 import DocumentDetail from '../components/DocumentDetail.vue'
+
 export default {
   data: () => ({
     files: [],
@@ -87,7 +88,6 @@ export default {
     },
     buildPageUrl(docId, pageNumber) {
       if (!docId || !pageNumber) return null
-      // Nova tool routes are prefixed with /nova-vendor/papertrail
       return `/nova-vendor/papertrail/documents/${docId}/pages/${pageNumber}`
     },
     onCloseDetail() {
@@ -110,13 +110,13 @@ export default {
         this.onFileRemoved()
         if (success) {
           // Ask the list to refresh itself
-          this.$refs.docList && this.$refs.docList.reload && this.$refs.docList.reload()
+          const docList = this.$refs?.docList
+          docList?.reload?.()
         }
       } finally {
         this.uploading = false
       }
     },
   },
-  computed: {}
 }
 </script>
