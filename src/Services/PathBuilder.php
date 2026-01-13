@@ -33,7 +33,7 @@ class PathBuilder implements PdfPathBuilder
     }
 
     /**
-     * Build processed root directory for a given uploaded PDF path (e.g., uploads/abc123.pdf)
+     * Build the processed root directory for a given uploaded PDF path (e.g., uploads/abc123.pdf)
      * Example output: processed/202512/abc123
      */
     public function rootDir(string $uploadedPdfPath, ?CarbonInterface $now = null): string
@@ -41,6 +41,7 @@ class PathBuilder implements PdfPathBuilder
         $now = $now ?: now(config('app.timezone'));
         $dateFolder = $now->format($this->dateFolderFormat);
         $tempName = pathinfo($uploadedPdfPath, PATHINFO_FILENAME);
+
         return rtrim($this->basePath, '/').'/'.$dateFolder.'/'.$tempName;
     }
 

@@ -30,6 +30,9 @@ class GeneratePdfPageImages implements ShouldQueue
             return;
         }
 
+        if ($doc->status->isError()) {
+            return;
+        }
         // Build processed directories: root and pages
         $rootDir = $paths->rootDir($this->pdfPath);
         $pagesDir = $paths->pagesDir($this->pdfPath);

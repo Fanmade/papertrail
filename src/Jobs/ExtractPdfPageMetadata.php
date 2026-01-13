@@ -29,6 +29,9 @@ class ExtractPdfPageMetadata implements ShouldQueue
         if (!$doc) {
             return;
         }
+        if ($doc->status->isError()) {
+            return;
+        }
 
         // Remove existing page rows to recalculate cleanly (metadata stage only)
         $doc->pages()->delete();

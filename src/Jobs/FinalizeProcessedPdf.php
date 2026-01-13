@@ -3,6 +3,7 @@
 namespace Fanmade\Papertrail\Jobs;
 
 use Fanmade\Papertrail\Contracts\PdfPathBuilder;
+use Fanmade\Papertrail\Types\PdfStatus;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -25,6 +26,9 @@ class FinalizeProcessedPdf implements ShouldQueue
     {
         $doc = $this->getDocument($this->documentId, $this->pdfPath);
         if (! $doc) {
+            return;
+        }
+        if ($doc->status->isError()) {
             return;
         }
 
@@ -55,6 +59,7 @@ class FinalizeProcessedPdf implements ShouldQueue
         // Store only the processed directory path on the document record
         $doc->update([
             'path' => $rootDir,
+            'status' => PdfStatus::PROCESSED,
         ]);
     }
 }

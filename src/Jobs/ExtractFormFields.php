@@ -29,6 +29,9 @@ class ExtractFormFields implements ShouldQueue
         if (!$doc) {
             return;
         }
+        if ($doc->status->isError()) {
+            return;
+        }
         foreach ($fields as $field) {
             $fieldModel = PdfField::fromDto($field);
             $doc->fields()->save($fieldModel);

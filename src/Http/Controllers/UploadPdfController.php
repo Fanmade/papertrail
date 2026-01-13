@@ -2,15 +2,16 @@
 
 namespace Fanmade\Papertrail\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Bus;
 use Fanmade\Papertrail\Jobs\ExtractFormFields;
 use Fanmade\Papertrail\Jobs\ExtractPdfPageMetadata;
+use Fanmade\Papertrail\Jobs\FinalizeProcessedPdf;
 use Fanmade\Papertrail\Jobs\GeneratePdfPageImages;
 use Fanmade\Papertrail\Jobs\GeneratePdfThumbnail;
-use Fanmade\Papertrail\Jobs\FinalizeProcessedPdf;
 use Fanmade\Papertrail\Models\PdfDocument;
-
+use Fanmade\Papertrail\Types\PdfStatus;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Bus;
+use Throwable;
 use function response;
 
 class UploadPdfController
@@ -18,12 +19,13 @@ class UploadPdfController
     public function __invoke(Request $request)
     {
         $uploadedFile = $request->file('pdf');
-        if (! $uploadedFile) {
+        if (!$uploadedFile) {
             return response()->json(['success' => false]);
         }
+        // Should we also make this configurable?
         $file = $uploadedFile->store('uploads', 'papertrail');
 
-        if (! $file) {
+        if (!$file) {
             return response()->json(['success' => false]);
         }
         $doc = PdfDocument::query()->create(
@@ -32,6 +34,7 @@ class UploadPdfController
                 'path' => $file,
                 'mime' => $uploadedFile->getMimeType(),
                 'size' => $uploadedFile->getSize(),
+                'status' => PdfStatus::UPLOADED,
                 'pages' => 0,
             ]
         );
@@ -46,7 +49,17 @@ class UploadPdfController
                 new GeneratePdfPageImages($file, $doc->id),
                 new FinalizeProcessedPdf($file, $doc->id),
             ]
-        )->dispatch();
+        )
+            ->catch(function (Throwable $e) use ($doc) {
+                logger()->error('Failed to process PDF', [
+                    'exception' => $e->getMessage(),
+                    'file' => $e->getFile(),
+                    'line' => $e->getLine(),
+                ]);
+                $doc->status = PdfStatus::ERROR;
+                $doc->save();
+            })
+            ->dispatch();
 
         // Other jobs remain independent
         ExtractFormFields::dispatch($file, documentId: $doc->id);
