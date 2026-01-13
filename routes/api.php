@@ -12,13 +12,9 @@ use Illuminate\Support\Facades\Route;
 | by your tool's "Authorize" middleware by default. Now, go build!
 |
 */
-
-// Route::get('/', function (Request $request) {
-//     //
-// });
-
 Route::post('/upload', \Fanmade\Papertrail\Http\Controllers\UploadPdfController::class);
 Route::get('/documents', \Fanmade\Papertrail\Http\Controllers\ListDocumentsController::class);
+ROute::delete('/documents/{document}', \Fanmade\Papertrail\Http\Controllers\DeletePdfController::class);
 Route::get('/documents/{document}/thumb', \Fanmade\Papertrail\Http\Controllers\GetThumbController::class)
     ->name('papertrail.documents.thumb');
 Route::get('/documents/{document}/pages/{page}', \Fanmade\Papertrail\Http\Controllers\GetPageImageController::class)

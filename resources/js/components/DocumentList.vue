@@ -8,10 +8,12 @@
         <div
           v-for="doc in documents"
           :key="doc.id"
-          class="flex items-center gap-4 p-3 border rounded bg-white dark:bg-gray-900 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800"
+          class="flex items-center gap-4 p-3 border rounded bg-white dark:bg-gray-900 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 relative"
           :class="{ 'ring-2 ring-primary-500 border-primary-500': doc.id === effectiveSelectedId }"
           @click="select(doc)"
         >
+          <button class="absolute top-2 right-2" @click.prevent="deleteDoc(doc)" :title="__('Delete')">x</button>
+
           <div class="flex-shrink-0 bg-gray-100 dark:bg-gray-800 flex items-center justify-center overflow-hidden">
             <div v-if="!doc.thumb_available" class="w-[100px] h-[140px] animate-pulse bg-gray-200 dark:bg-gray-700 rounded">
               <span class="sr-only">{{ __('Processing…') }}</span>
@@ -28,13 +30,13 @@
       </div>
       <!-- Pagination -->
       <nav v-if="hasPagination" class="flex justify-between items-center">
-        <button :disabled="pagination.current_page <= 1" class="text-xs font-bold py-3 px-4 focus:outline-none rounded-bl-lg focus:ring focus:ring-inset text-gray-300 dark:text-gray-600" rel="prev" dusk="previous" @click="prevPage">
+        <Button class="mt-4" :disabled="pagination.current_page <= 1" @click="prevPage">
           {{ __('Previous') }}
-        </button>
+        </Button>
         <span class="text-xs px-4" v-text="currentPageText"></span>
-        <button :disabled="pagination.current_page >= pagination.last_page" class="text-xs font-bold py-3 px-4 focus:outline-none rounded-br-lg focus:ring focus:ring-inset text-primary-500 hover:text-primary-400 active:text-primary-600" rel="next" dusk="next" @click="nextPage">
+        <Button class="mt-4" :disabled="pagination.current_page >= pagination.last_page" @click="nextPage">
           {{ __('Next') }}
-        </button>
+        </Button>
       </nav>
 
     </div>
@@ -84,15 +86,32 @@ export default {
     this.loadDocuments()
   },
   methods: {
+    /**
+     * Build a URL for the document API endpoint
+     * @param {string|null} documentId - The document ID to include in the URL, optional
+     * @param {Object} queryParameters - Query parameters to include in the URL, optional
+     * @returns {string} - The constructed URL
+     */
+    buildUrl(documentId, queryParameters = {}) {
+      // The documentId is optional
+      let url = '/nova-vendor/papertrail/documents';
+      if (documentId) {
+        url += `/${documentId}`;
+      }
+      if (Object.keys(queryParameters).length > 0) {
+        url += `?${new URLSearchParams(queryParameters)}`;
+      }
+      return url;
+    },
     async loadDocuments() {
       this.loading = true
       this.error = false
       try {
-        let requestUrl = '/nova-vendor/papertrail/documents';
+        let parameters = {}
         if (this.pagination.current_page > 1) {
-          requestUrl += `?page=${this.pagination.current_page}`
+          parameters.page = this.pagination.current_page
         }
-        const { data } = await Nova.request().get(requestUrl)
+        const { data } = await Nova.request().get(this.buildUrl(null, parameters))
         const docs = Array.isArray(data?.data) ? data.data : []
         // The pagination data should be in "data.meta" and contain a simple object
         const paginationData = data?.meta ? data.meta : {}
@@ -205,6 +224,11 @@ export default {
       if (s.timerId) clearTimeout(s.timerId)
       const { [id]: _removed, ...rest } = this.thumbPollers
       this.thumbPollers = rest
+    },
+    async deleteDoc(doc) {
+      // TODO: Allow deletion of documents
+      const response = await Nova.request().get(this.buildUrl(doc.id))
+      console.info('Response received', response)
     },
     cancelAllThumbPolling() {
       Object.keys(this.thumbPollers).forEach(id => this.clearThumbPolling(id))
