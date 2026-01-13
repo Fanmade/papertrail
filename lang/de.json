@@ -5,6 +5,7 @@
   "Close": "Schließen",
   "Company": "Firma",
   "Created at": "Erstellt am",
+  "Document deleted successfully": "Das Dokument wurde erfolgreich gelöscht",
   "Failed to load documents": "Dokumente konnten nicht geladen werden",
   "Failed to save": "Speichern fehlgeschlagen",
   "File uploaded successfully": "Datei erfolgreich hochgeladen",
@@ -24,5 +25,6 @@
   "Showing :from-:to of :total": ":from–:to von :total",
   "Upload": "Hochladen",
   "Upload PDF": "PDF hochladen",
+  "You are not allowed to delete this document": "Das Löschen dieses Dokumentes ist nicht erlaubt.",
   "Zip and city": "PLZ und Ort"
 }

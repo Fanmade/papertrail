@@ -14,6 +14,16 @@ class DeletePdfController
          * TODO: Implement deletion of documents
          * 1. Check if the user is allowed to delete the document. <- Make this configurable, if possible
          */
-        return response(status: Response::HTTP_FORBIDDEN)->noContent();
+        if (! $this->deletionIsAllowed($document)) {
+            return response(__('You are not allowed to delete this document'), status: Response::HTTP_FORBIDDEN)->isForbidden();
+        }
+
+        return response(__('Document deleted successfully'));
+    }
+
+    private function deletionIsAllowed(PdfDocument $document): bool
+    {
+        // TODO: Implement this!
+        return false;
     }
 }
