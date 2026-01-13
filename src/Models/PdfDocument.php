@@ -2,6 +2,7 @@
 
 namespace Fanmade\Papertrail\Models;
 
+use Fanmade\Papertrail\Types\PdfStatus;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -13,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $mime
  * @property int $pages
  * @property int $size
+ * @property \Fanmade\Papertrail\Types\PdfStatus|null $status
  * @property null|\Illuminate\Support\Carbon $created_at
  * @property null|\Illuminate\Support\Carbon $updated_at
  */
@@ -22,6 +24,10 @@ class PdfDocument extends Model
     protected $guarded = [];
 
     public $incrementing = false;
+
+    protected $casts = [
+        'status' => PdfStatus::class,
+    ];
 
     public function getFullPath(): string
     {
