@@ -227,7 +227,7 @@ export default {
     },
     async deleteDoc(doc) {
       // TODO: Allow deletion of documents
-      const response = await Nova.request().get(this.buildUrl(doc.id))
+      const response = await Nova.request().delete(this.buildUrl(doc.id))
       console.info('Response received', response)
     },
     cancelAllThumbPolling() {
