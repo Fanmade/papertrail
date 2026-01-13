@@ -3,7 +3,7 @@
 namespace Fanmade\Papertrail\Jobs;
 
 use Fanmade\Papertrail\Contracts\PdfPageImageRenderer;
-use Fanmade\Papertrail\Services\ProcessedPathBuilder;
+use Fanmade\Papertrail\Contracts\PdfPathBuilder;
 use Fanmade\Papertrail\Traits\HasDocumentReference;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
@@ -20,7 +20,7 @@ class GeneratePdfPageImages implements ShouldQueue
         public array   $options = [],
     ) {}
 
-    public function handle(PdfPageImageRenderer $renderer, ProcessedPathBuilder $paths): void
+    public function handle(PdfPageImageRenderer $renderer, PdfPathBuilder $paths): void
     {
         $absolute = Storage::disk($this->disk)->path($this->pdfPath);
         $base = pathinfo($this->pdfPath, PATHINFO_FILENAME);
@@ -33,7 +33,7 @@ class GeneratePdfPageImages implements ShouldQueue
         // Build processed directories: root and pages
         $rootDir = $paths->rootDir($this->pdfPath);
         $pagesDir = $paths->pagesDir($this->pdfPath);
-        $disk = Storage::disk($paths->disk());
+//        $disk = Storage::disk($paths->disk()); // Check: Can this be removed?
         $paths->ensureDir($rootDir);
         $paths->ensureDir($pagesDir);
 
@@ -44,7 +44,6 @@ class GeneratePdfPageImages implements ShouldQueue
         $result = $renderer->renderAllPages($absolute, $base, $options);
 
         foreach ($result as $data) {
-            // {"page_number":1,"width_px":1654,"height_px":2339,"dpi":200,"image_path":"pages/pdfs/XWF6Uw6Q32BO1DfhF83KAvQK6sfixICSJCxqfqFJ-page-001.png"},{"page_number":2,"width_px":1654,"height_px":2339,"dpi":200,"image_path":"pages/pdfs/XWF6Uw6Q32BO1DfhF83KAvQK6sfixICSJCxqfqFJ-page-002.png"}
             // Update the page data for each page of the document
             $doc->pages()->updateOrCreate(
                 [

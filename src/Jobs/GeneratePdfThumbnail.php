@@ -2,12 +2,12 @@
 
 namespace Fanmade\Papertrail\Jobs;
 
+use Fanmade\Papertrail\Contracts\PdfPathBuilder;
 use Illuminate\Bus\Batchable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\Storage;
 use Fanmade\Papertrail\Contracts\PdfImageGenerator;
-use Fanmade\Papertrail\Services\ProcessedPathBuilder;
 
 class GeneratePdfThumbnail implements ShouldQueue
 {
@@ -19,7 +19,7 @@ class GeneratePdfThumbnail implements ShouldQueue
         public ?string $thumbnailPath = null
     ) {}
 
-    public function handle(PdfImageGenerator $generator, ProcessedPathBuilder $paths): void
+    public function handle(PdfImageGenerator $generator, PdfPathBuilder $paths): void
     {
         $absolute = Storage::disk($this->disk)->path($this->pdfPath);
 

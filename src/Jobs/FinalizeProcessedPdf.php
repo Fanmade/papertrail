@@ -2,13 +2,13 @@
 
 namespace Fanmade\Papertrail\Jobs;
 
+use Fanmade\Papertrail\Contracts\PdfPathBuilder;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
-use Fanmade\Papertrail\Services\ProcessedPathBuilder;
 use Fanmade\Papertrail\Traits\HasDocumentReference;
 
 class FinalizeProcessedPdf implements ShouldQueue
@@ -21,7 +21,7 @@ class FinalizeProcessedPdf implements ShouldQueue
         public string $disk = 'papertrail',
     ) {}
 
-    public function handle(ProcessedPathBuilder $paths): void
+    public function handle(PdfPathBuilder $paths): void
     {
         $doc = $this->getDocument($this->documentId, $this->pdfPath);
         if (! $doc) {

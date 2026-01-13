@@ -3,6 +3,8 @@
 namespace Fanmade\Papertrail;
 
 use Fanmade\Papertrail\Contracts\FormFiller;
+use Fanmade\Papertrail\Contracts\PdfPathBuilder;
+use Fanmade\Papertrail\Services\PathBuilder;
 use Fanmade\Papertrail\Services\PythonFormFiller;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
@@ -123,6 +125,8 @@ class PapertrailServiceProvider extends ServiceProvider
                 };
             }
         );
+
+        $this->app->bind(PdfPathBuilder::class, PathBuilder::class);
     }
 
     protected function bootTranslations(): void

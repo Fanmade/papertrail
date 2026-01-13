@@ -3,13 +3,14 @@
 namespace Fanmade\Papertrail\Services;
 
 use Carbon\CarbonInterface;
+use Fanmade\Papertrail\Contracts\PdfPathBuilder;
 use Illuminate\Support\Facades\Storage;
 
 use function config;
 use function pathinfo;
 use function rtrim;
 
-class ProcessedPathBuilder
+class PathBuilder implements PdfPathBuilder
 {
     private string $disk;
     private string $basePath;
