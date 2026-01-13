@@ -17,15 +17,16 @@ class ListDocumentsController
 {
     public function __invoke(Request $request)
     {
-        $perPage = (int) ($request->integer('per_page') ?: 15);
+        $perPage = ($request->integer('per_page') ?: 15);
         $search = (string) $request->get('search', '');
+        $page = ($request->integer('page') ?: 1);
 
         $query = PdfDocument::query()->orderByDesc('created_at');
         if ($search !== '') {
             $query->where('name', 'like', "%{$search}%");
         }
 
-        $paginator = $query->paginate($perPage);
+        $paginator = $query->paginate($perPage, page: $page);
 
         $processedCfg = (array) config('papertrail.processed', []);
         $thumbCfg = (array) config('papertrail.thumb_defaults', []);

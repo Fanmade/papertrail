@@ -27,9 +27,16 @@
         </div>
       </div>
       <!-- Pagination -->
-      <div v-if="hasPagination" class="w-full">
-        Pagination!
-      </div>
+      <nav v-if="hasPagination" class="flex justify-between items-center">
+        <button :disabled="pagination.current_page <= 1" class="text-xs font-bold py-3 px-4 focus:outline-none rounded-bl-lg focus:ring focus:ring-inset text-gray-300 dark:text-gray-600" rel="prev" dusk="previous" @click="prevPage">
+          {{ __('Previous') }}
+        </button>
+        <span class="text-xs px-4" v-text="currentPageText"></span>
+        <button :disabled="pagination.current_page >= pagination.last_page" class="text-xs font-bold py-3 px-4 focus:outline-none rounded-br-lg focus:ring focus:ring-inset text-primary-500 hover:text-primary-400 active:text-primary-600" rel="next" dusk="next" @click="nextPage">
+          {{ __('Next') }}
+        </button>
+      </nav>
+
     </div>
   </div>
   
@@ -61,7 +68,10 @@ export default {
     },
     hasPagination() {
       return this.pagination?.last_page > 1
-    }
+    },
+    currentPageText() {
+      return `${this.pagination.current_page} - ${this.pagination.current_page + this.pagination.per_page - 1} {{ __('of') }} ${this.pagination.total}`
+    },
   },
   mounted() {
     this.loadDocuments()
@@ -71,7 +81,11 @@ export default {
       this.loading = true
       this.error = false
       try {
-        const { data } = await Nova.request().get('/nova-vendor/papertrail/documents')
+        let requestUrl = '/nova-vendor/papertrail/documents';
+        if (this.pagination.current_page > 1) {
+          requestUrl += `?page=${this.pagination.current_page}`
+        }
+        const { data } = await Nova.request().get(requestUrl)
         const docs = Array.isArray(data?.data) ? data.data : []
         // The pagination data should be in "data.meta" and contain a simple object
         const paginationData = data?.meta ? data.meta : {}
@@ -85,6 +99,22 @@ export default {
       } finally {
         this.loading = false
       }
+    },
+    loadPage(page) {
+      this.pagination.current_page = page
+      this.reload()
+    },
+    nextPage() {
+      if (this.pagination.current_page >= this.pagination.last_page) {
+        return
+      }
+      this.loadPage(this.pagination.current_page + 1)
+    },
+    prevPage() {
+      if (this.pagination.current_page <= 1) {
+        return
+      }
+      this.loadPage(this.pagination.current_page - 1)
     },
     setupPagination(paginationData = {}) {
       const DEFAULT_PAGINATION = {
