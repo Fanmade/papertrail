@@ -233,6 +233,7 @@ export default {
       let message = response?.data?.message ?? (isSuccess ? this.__('Document deleted successfully') : this.__('Failed to delete document'))
       Nova.$toasted.show(message, { type: isSuccess ? 'success' : 'error'})
       if (isSuccess) {
+        this.clearSelection()
         this.reload()
       }
     },
