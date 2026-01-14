@@ -232,6 +232,9 @@ export default {
       let isSuccess = response.status === 200
       let message = response?.data?.message ?? (isSuccess ? this.__('Document deleted successfully') : this.__('Failed to delete document'))
       Nova.$toasted.show(message, { type: isSuccess ? 'success' : 'error'})
+      if (isSuccess) {
+        this.reload()
+      }
     },
     cancelAllThumbPolling() {
       Object.keys(this.thumbPollers).forEach(id => this.clearThumbPolling(id))
