@@ -12,7 +12,7 @@
           :class="{ 'ring-2 ring-primary-500 border-primary-500': doc.id === effectiveSelectedId }"
           @click="select(doc)"
         >
-          <button class="absolute top-2 right-2" @click.prevent="deleteDoc(doc)" :title="__('Delete')">x</button>
+          <button class="absolute top-2 right-4 hover:bold" @click.prevent="deleteDoc(doc)" :title="__('Delete')">x</button>
 
           <div class="flex-shrink-0 bg-gray-100 dark:bg-gray-800 flex items-center justify-center overflow-hidden">
             <div v-if="!doc.thumb_available" class="w-[100px] h-[140px] animate-pulse bg-gray-200 dark:bg-gray-700 rounded">
@@ -226,9 +226,12 @@ export default {
       this.thumbPollers = rest
     },
     async deleteDoc(doc) {
-      // TODO: Allow deletion of documents
+      // TODO: Make this more dynamic, disallow deletion of all or specific documents
       const response = await Nova.request().delete(this.buildUrl(doc.id))
       console.info('Response received', response)
+      let isSuccess = response.status === 200
+      let message = response?.data?.message ?? (isSuccess ? this.__('Document deleted successfully') : this.__('Failed to delete document'))
+      Nova.$toasted.show(message, { type: isSuccess ? 'success' : 'error'})
     },
     cancelAllThumbPolling() {
       Object.keys(this.thumbPollers).forEach(id => this.clearThumbPolling(id))
