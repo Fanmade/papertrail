@@ -241,7 +241,7 @@ export default {
         this.reload()
         // Check if the deleted document is also the selected one
         if (this.selectedDocument?.id === doc.id) {
-          this.clearSelection()
+          this.select('select', null)
         }
       }
     },
