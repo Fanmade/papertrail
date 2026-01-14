@@ -6,6 +6,7 @@
   "Company": "Firma",
   "Created at": "Erstellt am",
   "Document deleted successfully": "Das Dokument wurde erfolgreich gelöscht",
+  "Failed to delete document": "Das Dokument konnte nicht gelöscht werden",
   "Failed to load documents": "Dokumente konnten nicht geladen werden",
   "Failed to save": "Speichern fehlgeschlagen",
   "File uploaded successfully": "Datei erfolgreich hochgeladen",
