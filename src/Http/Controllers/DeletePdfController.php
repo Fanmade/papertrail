@@ -55,7 +55,7 @@ class DeletePdfController
         $this->deleteProcessed($document);
 
         // We only need to delete the original PDF if the processing did not succeed
-        if ($document->status->succeeded()) {
+        if ($document->status->isProcessed()) {
             return;
         }
         Storage::delete($document->path);
