@@ -20,15 +20,20 @@ class PythonFormFieldsExtractor implements PdfFormFieldExtractor
         $result = Process::run(['python3', $scriptPath, $pdfAbsolutePath]);
 
         $fields = [];
-        if ($result->successful()) {
-            $fieldsData = json_decode($result->output(), true);
-            if (is_array($fieldsData) && ! empty($fieldsData)) {
-                foreach ($fieldsData as $field) {
-                    if (! is_array($field)) {
-                        continue;
-                    }
-                    $fields[] = PdfFormField::fromArray($field);
+        if (!$result->successful()) {
+            logger()?->error('PDF Form Fields extraction failed', [
+                'message' => $result->errorOutput(),
+            ]);
+
+            return [];
+        }
+        $fieldsData = json_decode($result->output(), true);
+        if (is_array($fieldsData) && !empty($fieldsData)) {
+            foreach ($fieldsData as $field) {
+                if (!is_array($field)) {
+                    continue;
                 }
+                $fields[] = PdfFormField::fromArray($field);
             }
         }
 
