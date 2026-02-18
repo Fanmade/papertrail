@@ -1,9 +1,11 @@
+#!/opt/venv/bin/python
+
 import sys
 import json
-import fitz  # PyMuPDF
+import pymupdf
 
 def extract_form_fields(pdf_path):
-    doc = fitz.open(pdf_path)
+    doc = pymupdf.open(pdf_path)
     fields = []
 
     for page_num, page in enumerate(doc):
