@@ -6,19 +6,31 @@
       <div v-if="documents.length === 0" class="text-gray-500">{{ __('No documents yet') }}</div>
       <div v-else class="space-y-3 max-h-[70vh] overflow-y-auto pr-1">
         <div
-          v-for="doc in documents"
-          :key="doc.id"
-          class="flex items-center gap-4 p-3 border rounded bg-white dark:bg-gray-900 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 relative"
-          :class="{ 'ring-2 ring-primary-500 border-primary-500': doc.id === effectiveSelectedId }"
-          @click="select(doc)"
+            v-for="doc in documents"
+            :key="doc.id"
+            class="flex items-center gap-4 p-3 border rounded bg-white dark:bg-gray-900 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 relative"
+            :class="{ 'ring-2 ring-primary-500 border-primary-500': doc.id === effectiveSelectedId }"
+            @click="select(doc)"
         >
-          <button class="absolute top-2 right-4 hover:bold" @click.stop.prevent="deleteDoc(doc)" :title="__('Delete')">x</button>
+          <button class="absolute top-2 right-4 hover:bold" @click.stop.prevent="deleteDoc(doc)" :title="__('Delete')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                 class="lucide lucide-trash2-icon lucide-trash-2">
+              <path d="M10 11v6"/>
+              <path d="M14 11v6"/>
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/>
+              <path d="M3 6h18"/>
+              <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+            </svg>
+          </button>
 
           <div class="flex-shrink-0 bg-gray-100 dark:bg-gray-800 flex items-center justify-center overflow-hidden">
-            <div v-if="!doc.thumb_available" class="w-[100px] h-[140px] animate-pulse bg-gray-200 dark:bg-gray-700 rounded">
+            <div v-if="!doc.thumb_available"
+                 class="w-[100px] h-[140px] animate-pulse bg-gray-200 dark:bg-gray-700 rounded">
               <span class="sr-only">{{ __('Processing…') }}</span>
             </div>
-            <img v-else :src="doc._thumb_src || doc.thumb_url" :alt="doc.name" class="object-contain max-w-[100px] h-auto"/>
+            <img v-else :src="doc._thumb_src || doc.thumb_url" :alt="doc.name"
+                 class="object-contain max-w-[100px] h-auto"/>
           </div>
           <div class="min-w-0">
             <div class="font-semibold truncate">{{ doc.name }}</div>
@@ -41,7 +53,7 @@
 
     </div>
   </div>
-  
+
 </template>
 
 <script>
@@ -49,7 +61,7 @@ export default {
   name: 'DocumentList',
   props: {
     // Optional external selected id for highlighting (Tool can pass it in)
-    selectedId: { type: [String, Number, null], default: null },
+    selectedId: {type: [String, Number, null], default: null},
   },
   data: () => ({
     documents: [],
@@ -111,12 +123,12 @@ export default {
         if (this.pagination.current_page > 1) {
           parameters.page = this.pagination.current_page
         }
-        const { data } = await Nova.request().get(this.buildUrl(null, parameters))
+        const {data} = await Nova.request().get(this.buildUrl(null, parameters))
         const docs = Array.isArray(data?.data) ? data.data : []
         // The pagination data should be in "data.meta" and contain a simple object
         const paginationData = data?.meta ? data.meta : {}
         this.setupPagination(paginationData)
-        this.documents = docs.map(d => ({ ...d, _thumb_src: null }))
+        this.documents = docs.map(d => ({...d, _thumb_src: null}))
         this.documents.forEach(doc => {
           if (!doc.thumb_available) this.startThumbPolling(doc)
         })
@@ -188,7 +200,7 @@ export default {
         delayMs: firstDelay,
         timerId: null,
       }
-      this.thumbPollers = { ...this.thumbPollers, [doc.id]: state }
+      this.thumbPollers = {...this.thumbPollers, [doc.id]: state}
 
       const tick = async () => {
         // Stop if we no longer have this doc
@@ -199,7 +211,10 @@ export default {
         if (Date.now() - state.startedAt > maxMs) return this.clearThumbPolling(doc.id)
 
         try {
-          const res = await fetch(current.thumb_url + `?probe=${Date.now()}`, { method: 'HEAD', credentials: 'same-origin' })
+          const res = await fetch(current.thumb_url + `?probe=${Date.now()}`, {
+            method: 'HEAD',
+            credentials: 'same-origin'
+          })
           if (res.status === 200) {
             current.thumb_available = true
             current._thumb_src = current.thumb_url + `?v=${Date.now()}`
@@ -222,12 +237,12 @@ export default {
       const s = this.thumbPollers[id]
       if (!s) return
       if (s.timerId) clearTimeout(s.timerId)
-      const { [id]: _removed, ...rest } = this.thumbPollers
+      const {[id]: _removed, ...rest} = this.thumbPollers
       this.thumbPollers = rest
     },
     async deleteDoc(doc) {
       const ok = window.confirm(
-          this.__('Are you sure you want to delete “:name”?', { name: doc?.name ?? this.__('this document') })
+          this.__('Are you sure you want to delete “:name”?', {name: doc?.name ?? this.__('this document')})
       )
       if (!ok) return
 
@@ -236,7 +251,7 @@ export default {
       console.info('Response received', response)
       let isSuccess = response.status === 200
       let message = response?.data?.message ?? (isSuccess ? this.__('Document deleted successfully') : this.__('Failed to delete document'))
-      Nova.$toasted.show(message, { type: isSuccess ? 'success' : 'error'})
+      Nova.$toasted.show(message, {type: isSuccess ? 'success' : 'error'})
       if (isSuccess) {
         this.reload()
         // Check if the deleted document is also the selected one
