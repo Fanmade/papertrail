@@ -12,7 +12,7 @@
             :class="{ 'ring-2 ring-primary-500 border-primary-500': doc.id === effectiveSelectedId }"
             @click="select(doc)"
         >
-          <button class="absolute top-2 right-4 hover:bold" @click.stop.prevent="deleteDoc(doc)" :title="__('Delete')">
+          <button class="absolute top-2 right-4 text-gray-500 hover:text-red-500 transition-colors duration-200" @click.stop.prevent="deleteDoc(doc)" :title="__('Delete')">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                  class="lucide lucide-trash2-icon lucide-trash-2">
