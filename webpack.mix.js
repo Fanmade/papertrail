@@ -5,8 +5,8 @@ mix.extend('nova', new NovaExtension())
 
 mix
   .setPublicPath('dist')
-  .js('resources/js/tool.js', 'js')
+  .js('resources/js/tool.js', 'js/papertrail.js')
   .vue({ version: 3 })
-  .css('resources/css/tool.css', 'css')
+  .css('resources/css/tool.css', 'css/papertrail.css')
   .nova('fanmade/papertrail')
   .version()
