@@ -45,4 +45,6 @@ return [
 //        'full_name', => __('Full name'),
     ],
 
+    'python_path' => 'python3',
+
 ];

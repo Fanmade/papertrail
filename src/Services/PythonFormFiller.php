@@ -10,9 +10,11 @@ use Illuminate\Support\Str;
 use League\Flysystem\Local\LocalFilesystemAdapter;
 
 use function dirname;
+use function is_dir;
 use function json_encode;
 use function logger;
 use function mkdir;
+use function sprintf;
 use function storage_path;
 use function tempnam;
 use function unlink;
@@ -53,7 +55,7 @@ class PythonFormFiller implements FormFiller
             $scriptPath = __DIR__ . '/../../scripts/fill_form.py';
 
             $result = Process::run([
-                'python3',
+                config('papertrail.python_path'),
                 $scriptPath,
                 $inputPath,
                 $outputPath,
@@ -61,7 +63,7 @@ class PythonFormFiller implements FormFiller
             ]);
 
             if ($result->failed()) {
-                logger()->error('PDF Generation failed', [
+                logger()?->error('PDF Generation failed', [
                     'command' => $result->command(),
                     'exitCode' => $result->exitCode(),
                     'errorOutput' => $result->errorOutput(),

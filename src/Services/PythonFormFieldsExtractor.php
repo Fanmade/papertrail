@@ -7,6 +7,9 @@ use Fanmade\Papertrail\Contracts\PdfFormFieldExtractor;
 use Fanmade\Papertrail\Types\PdfFormField;
 
 use function json_decode;
+use function is_array;
+use function logger;
+use function config;
 
 class PythonFormFieldsExtractor implements PdfFormFieldExtractor
 {
@@ -17,7 +20,7 @@ class PythonFormFieldsExtractor implements PdfFormFieldExtractor
     {
         $scriptPath = __DIR__ . '/../../scripts/extract_pdf_form_fields.py';
 
-        $result = Process::run(['python3', $scriptPath, $pdfAbsolutePath]);
+        $result = Process::run([config('papertrail.python_path'), $scriptPath, $pdfAbsolutePath]);
 
         $fields = [];
         if (!$result->successful()) {
